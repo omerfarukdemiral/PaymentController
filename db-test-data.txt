@@ -1,0 +1,58 @@
+CREATE TRIGGER test1_ins_trigger after insert on SALES
+  when new.SaleID < 1000 begin
+insert into SALES(SaleDate,SaleTime,PeronNo,TotalAmount,TotalTime,isCanceled,PaymentType,isTransferred) values("30.07.2019",time('now'),1,5,50,0,0,1); 
+
+
+CREATE TRIGGER test2_ins_trigger after insert on SalesItems
+  when new.ID < 1000 begin
+
+insert into SalesItems(SaleID,NozzleNo,ProductPrice,ProductTime,IncreaseValue,DiscountValue,isCanceled) values(600,1,1,50,0,0,0);
+
+
+
+UPDATE SALES SET SaleDate="30.07.2019" WHERE SaleID>900
+
+
+-------------------------------------------------------------------------
+
+/*--------------INSERT INTO SALES-----------------*/
+
+CREATE TRIGGER test1_ins_trigger after insert on SALES
+  when new.SaleID < 1800 begin
+insert into SALES(SaleDate,SaleTime,PeronNo,TotalAmount,TotalTime,isCanceled,PaymentType,isTransferred) values("31.07.2019",time('now'),99,99,99,0,0,1);  END;
+pragma recursive_triggers = 1;
+insert into SALES(SaleDate,SaleTime,PeronNo,TotalAmount,TotalTime,isCanceled,PaymentType,isTransferred) values(date('now'),time('now'),99,99,99,0,0,1); 
+
+
+UPDATE SALES set PeronNo = SaleID%2 Where PeronNo =99;
+
+UPDATE SALES set PeronNo = 2 Where PeronNo =0;
+
+UPDATE SALES set TotalAmount = SaleID%5  Where TotalAmount=99;
+
+UPDATE SALES set TotalAmount = 5  Where TotalAmount=0;
+
+UPDATE SALES set TotalTime = TotalAmount*10  Where TotalTime=99;
+
+-------------------------------------------------------------------------
+
+/*----------------- INSERT INTO SalesItems -----------------*/
+
+CREATE TRIGGER test2_ins_trigger after insert on SalesItems
+  when new.ID < 1350 begin
+
+insert into SalesItems(SaleID,NozzleNo,ProductPrice,ProductTime,IncreaseValue,DiscountValue,isCanceled) values(9999,99,99,99,0,0,0);
+END;
+pragma recursive_triggers = 1;
+
+insert into SalesItems(SaleID,NozzleNo,ProductPrice,ProductTime,IncreaseValue,DiscountValue,isCanceled) values(9999,99,99,99,0,0,0);
+
+UPDATE SalesItems SET SaleID = ID+450 WHERE SALEID=9999;
+
+UPDATE SalesItems SET NozzleNo= ID%3 WHERE NozzleNo=99;
+
+UPDATE SalesItems SET ProductPrice= ID%5 WHERE ProductPrice=99;
+UPDATE SalesItems SET ProductPrice= 5 WHERE ProductPrice=0;
+
+UPDATE SalesItems SET ProductTime= ProductPrice*10 WHERE ProductTime=99;
+-------------------------------------------------------------------------
